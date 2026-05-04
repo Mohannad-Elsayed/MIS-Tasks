@@ -71,9 +71,14 @@ sudo systemctl start docker
 sudo systemctl enable docker
 
 
-sudo docker run --name cassandra-local -p 9042:9042 -d cassandra:latest
+sudo docker run --name group-cassandra -p 9042:9042 -v $(pwd)/cassandra.yaml:/etc/cassandra/cassandra.yaml -d cassandra:latest
 
-sudo docker logs cassandra-local
+sudo docker logs group-cassandra
 
-sudo docker exec -it cassandra-local cqlsh
+sudo docker exec -it group-cassandra cqlsh
+
+sudo docker cp group-cassandra:/etc/cassandra/cassandra.yaml ./cassandra.yaml
+
+sudo docker stop group-cassandra
+sudo docker rm group-cassandra
 
